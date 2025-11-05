@@ -11,6 +11,12 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      { source: '/secureproxy.php', destination: '/api/secureproxy' },
+      { source: '/secureproxy', destination: '/api/secureproxy' },
+    ];
+  },
 };
 
 module.exports = nextConfig;
